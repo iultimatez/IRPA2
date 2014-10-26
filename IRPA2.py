@@ -9,12 +9,9 @@ for x in range(1095):
 	file_name = "IRTM/" + str(fileIndex) + ".txt"
 	f = open (file_name, 'r')
 	result = re.sub("[^A-Za-z]"," ",f.read().lower()).split()
-	stop = filter(lambda x: not(x in stop_words), result) 
+	stop = filter(lambda x: not(x in stop_words), result)
 	stemmed = map(lambda x: p.stem(x, 0, len(x)-1), stop)
-
 	addIndex = map(lambda x: {1: x, 2: fileIndex}, stemmed)
-
-
 	fullList += addIndex
 
 	f.close()
@@ -25,7 +22,6 @@ dictionary = []
 dictCount = -1
 
 for x in range(len(sortedList)):
-	#print sortedList[x][1] + ' ' + str(sortedList[x][2])
 	if  x == 0:
 		dictionary += [{1: sortedList[x][1], 2:1}]
 		#print dictionary
@@ -37,8 +33,13 @@ for x in range(len(sortedList)):
 		else :
 			dictionary += [{1: sortedList[x][1], 2:1}]
 			dictCount += 1
-for x in dictionary:
-	print x
-#print dictionary
+dictionaryTXT = open('dictionary.txt', 'w')
+print "{:<7} {:<20}{}".format("i_index", "term", "df")
+dictionaryTXT.write("{:<7} {:<20}{}\n".format("i_index", "term", "df")) 
+for x in range(len(dictionary)):
+	print "{:<5}   {:<20}{}".format(str(x+1), dictionary[x][1], str(dictionary[x][2])) 
+	dictionaryTXT.write("{:<5}   {:<20}{}\n".format(str(x+1), dictionary[x][1], str(dictionary[x][2])) )
+#print len(dictionary)
+dictionaryTXT.close()
 stop_words_file.close()
 
