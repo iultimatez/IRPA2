@@ -7,7 +7,7 @@ stop_words = stop_words_file.read().split()
 fullList = []
 arrayForEachDocument = []
 arrayForEachDocumentWithCount = []
-numberOfDocs = 1095
+numberOfDocs = 100
 for x in range(numberOfDocs):
 	fileIndex = x + 1
 	file_name = "IRTM/" + str(fileIndex) + ".txt"
@@ -64,6 +64,7 @@ for x in range(len(dictionary)):
 	print "{:<5}   {:<20}{}".format(str(x+1), dictionary[x][1], str(dictionary[x][2])) 
 	dictionaryTXT.write("{:<5}   {:<20}{}\n".format(str(x+1), dictionary[x][1], str(dictionary[x][2])))
 
+allVectors = []
 #print len(dictionary)
 for y in range(len(arrayForEachDocument)):
 	getTermIndex = filter(lambda x: (x[1] in arrayForEachDocument[y]), dictionary)
@@ -74,11 +75,42 @@ for y in range(len(arrayForEachDocument)):
 	writeResult.write(str(len(arrayForEachDocumentWithCount[y])) + '\n')
 	print "t_index tf_idf"
 	writeResult.write("t_index tf_idf\n")
+	vector = []
 	for q in range(len(arrayForEachDocumentWithCount[y])):
 		print "{:<5}   {:.2f}".format(str(getTermIndex[q][3]), math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])
 		writeResult.write("{:<5}   {:.2f}\n".format(str(getTermIndex[q][3]), math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2]))
+		vector.append({1: getTermIndex[q][3], 2: (math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])})
 	writeResult.close()
+	allVectors.append(vector)
+def cos_similarity(x, y):
+	common = []
+	pointerX = 0
+	pointerY = 0;
+	while pointerX < len(allVectors[x]) and pointerY < len(allVectors[y]):
+		if allVectors[x][pointerX][1] == allVectors[y][pointerY][1]:
+			common.append({1: allVectors[x][pointerX][1], 2:allVectors[x][pointerX][2], 3:allVectors[y][pointerY][1], 4:allVectors[y][pointerY][2], 5: allVectors[x][pointerX][2] * allVectors[y][pointerY][2] })
+			pointerY += 1
+			pointerX += 1
+		elif allVectors[x][pointerX][1] < allVectors[y][pointerY][1]:
+			pointerX += 1
+		elif allVectors[x][pointerX][1] > allVectors[y][pointerY][1]:
+			pointerY += 1
+	print common
+	distanceX = 0.0
+	distanceY = 0.0
+	for a in allVectors[x]:
+		distanceX += a[2]*a[2]
+	distanceX = math.sqrt(distanceX)
+	for b in allVectors[y]:
+		distanceY += b[2]*b[2]
+	distanceY = math.sqrt(distanceY)
+	inner = 0.0
+	for c in common:
+		inner += c[5]
+	return inner/(distanceY*distanceX)
 #str(getTermIndex[q][3]) + ' ' + arrayForEachDocumentWithCount[y][q][1] + "  " + str(math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])
 dictionaryTXT.close()
 stop_words_file.close()
+print "\n cosine similarity"
+print cos_similarity(10,1)
 
