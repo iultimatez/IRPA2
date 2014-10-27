@@ -2,13 +2,17 @@ import re
 import porter_algorithm
 import math
 import sys
+
 p = porter_algorithm.PorterStemmer()
 stop_words_file = open('stop_words.txt', 'r')
 stop_words = stop_words_file.read().split()
+
 fullList = []
 arrayForEachDocument = []
 arrayForEachDocumentWithCount = []
+
 numberOfDocs = int(sys.argv[1])
+
 for x in range(numberOfDocs):
 	fileIndex = x + 1
 	file_name = "IRTM/" + str(fileIndex) + ".txt"
@@ -134,6 +138,6 @@ def cos_similarity(x, y):
 #str(getTermIndex[q][3]) + ' ' + arrayForEachDocumentWithCount[y][q][1] + "  " + str(math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])
 dictionaryTXT.close()
 stop_words_file.close()
-print "\ncosine similarity of " + sys.argv[2] + ' and ' + sys.argv[3]
+print "cosine similarity of " + sys.argv[2] + ' and ' + sys.argv[3]
 print cos_similarity(int(sys.argv[2]),int(sys.argv[3]))
 
