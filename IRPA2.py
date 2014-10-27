@@ -87,7 +87,9 @@ for y in range(len(arrayForEachDocument)):
 		vector.append({1: getTermIndex[q][3], 2: (math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])})
 	#writeResult.close()
 	allVectors.append(vector)
+
 distanceForEveryDocument = []
+
 for x in range(len(allVectors)):
 	distance = 0.0
 	for y in range(len(allVectors[x])):
@@ -95,6 +97,7 @@ for x in range(len(allVectors)):
 	distance = math.sqrt(distance)
 	distanceForEveryDocument.append(distance)
 #print distanceForEveryDocument
+
 for x in range(len(allVectors)):
 	fileIndex = x + 1
 	file_name = "results/" + str(fileIndex) + ".txt"
@@ -108,6 +111,7 @@ for x in range(len(allVectors)):
 		#print "{:<5}   {:.2f}".format(str(allVectors[x][y][1]), allVectors[x][y][2])
 		writeResult.write("{:<5}   {:.2f}\n".format(str(allVectors[x][y][1]), allVectors[x][y][2]))
 	writeResult.close()
+
 def cos_similarity(x, y):
 	common = []
 	pointerX = 0
@@ -135,9 +139,11 @@ def cos_similarity(x, y):
 		inner += c[5]
 	#return inner/(distanceY*distanceX)
 	return inner
+
 #str(getTermIndex[q][3]) + ' ' + arrayForEachDocumentWithCount[y][q][1] + "  " + str(math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])
 dictionaryTXT.close()
 stop_words_file.close()
+
 print "cosine similarity of " + sys.argv[2] + ' and ' + sys.argv[3]
 print cos_similarity(int(sys.argv[2]),int(sys.argv[3]))
 
