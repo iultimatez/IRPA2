@@ -43,7 +43,7 @@ for x in range(numberOfDocs):
 	f.close()
 #print arrayForEachDocument
 #print len(arrayForEachDocument)
-
+print "All documents processed."
 sortedList = sorted(fullList, key = lambda x : x[1])
 
 dictionary = []
@@ -65,10 +65,11 @@ for x in range(len(sortedList)):
 dictionaryTXT = open('dictionary.txt', 'w')
 #print "{:<7} {:<20}{}".format("i_index", "term", "df")
 dictionaryTXT.write("{:<7} {:<20}{}\n".format("i_index", "term", "df")) 
+
 for x in range(len(dictionary)):
 	#print "{:<5}   {:<20}{}".format(str(x+1), dictionary[x][1], str(dictionary[x][2])) 
 	dictionaryTXT.write("{:<5}   {:<20}{}\n".format(str(x+1), dictionary[x][1], str(dictionary[x][2])))
-
+print "Dictionary generated."
 allVectors = []
 #print len(dictionary)
 for y in range(len(arrayForEachDocument)):
@@ -87,7 +88,7 @@ for y in range(len(arrayForEachDocument)):
 		vector.append({1: getTermIndex[q][3], 2: (math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])})
 	#writeResult.close()
 	allVectors.append(vector)
-
+print "td-idf calculated."
 distanceForEveryDocument = []
 
 for x in range(len(allVectors)):
@@ -111,7 +112,7 @@ for x in range(len(allVectors)):
 		#print "{:<5}   {:.2f}".format(str(allVectors[x][y][1]), allVectors[x][y][2])
 		writeResult.write("{:<5}   {:.2f}\n".format(str(allVectors[x][y][1]), allVectors[x][y][2]))
 	writeResult.close()
-
+print "Normalized all documents."
 def cos_similarity(x, y):
 	common = []
 	pointerX = 0
