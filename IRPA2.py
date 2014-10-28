@@ -98,7 +98,7 @@ for y in range(len(arrayForEachDocument)):
 		#writeResult.write("{:<5}   {:.2f}\n".format(str(getTermIndex[q][3]), math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2]))
 		#vector.append({1: getTermIndex[q][3], 2: (math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])})
 		#print arrayForEachDocument[y][q]
-		vector.append({1: dictionaryOfIndex[arrayForEachDocument[y][q]], 2: (math.log(float(numberOfDocs) / float(dfOfIndex[arrayForEachDocument[y][q]]), 10) * arrayForEachDocumentWithCount[y][q][2])})
+		vector.append({1: dictionaryOfIndex[arrayForEachDocumentWithCount[y][q][1]], 2: (math.log(float(numberOfDocs) / float(dfOfIndex[arrayForEachDocumentWithCount[y][q][1]]), 10) * arrayForEachDocumentWithCount[y][q][2])})
 	#writeResult.close()
 	allVectors.append(vector)
 print "td-idf calculated."
