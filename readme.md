@@ -26,6 +26,7 @@
 	執行過程僅顯示兩個檔案的cosine similarity，其他無輸出，僅顯示每個步驟的運算時間，直接讀入檔案，處理後輸出至results資料夾以及dictionary.txt
 	
 	尚未修改演算法之前，需要耗費一分十幾秒的時間，加速後大幅削減計算tf-idf的時間，讓程式加速七倍只需耗時10秒左右
+	The cosine similarity of 1 and 2 is 0.208086110487
 ![Alt text](screenshot1.png)
 ![Alt text](screenshot2.png)
 	
