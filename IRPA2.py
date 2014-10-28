@@ -48,20 +48,31 @@ sortedList = sorted(fullList, key = lambda x : x[1])
 
 dictionary = []
 dictCount = -1
+dictionaryOfIndex = {}
+dfOfIndex = {}
 
 for x in range(len(sortedList)):
 	if  x == 0:
 		dictionary += [{1: sortedList[x][1], 2:1, 3:dictCount+2}]
+		dictionaryOfIndex.update({sortedList[x][1]: dictCount+2})
+		dfOfIndex.update({sortedList[x][1]: 1})
 		#print dictionary
 		dictCount += 1
 	else :
 		if sortedList[x][1] == sortedList[x-1][1]:
 			if sortedList[x][2] != sortedList[x-1][2]:
 				dictionary[dictCount][2] += 1
+				dfOfIndex[sortedList[x][1]] += 1
 		else :
 			dictionary += [{1: sortedList[x][1], 2:1, 3:dictCount+2}]
+			dictionaryOfIndex.update({sortedList[x][1]: dictCount+2})
+			dfOfIndex.update({sortedList[x][1]: 1})
 			dictCount += 1
 
+# print dictionaryOfIndex
+# print len(dictionaryOfIndex)
+# print dfOfIndex
+# print len(dfOfIndex)
 dictionaryTXT = open('dictionary.txt', 'w')
 #print "{:<7} {:<20}{}".format("i_index", "term", "df")
 dictionaryTXT.write("{:<7} {:<20}{}\n".format("i_index", "term", "df")) 
@@ -73,7 +84,7 @@ print "Dictionary generated."
 allVectors = []
 #print len(dictionary)
 for y in range(len(arrayForEachDocument)):
-	getTermIndex = filter(lambda x: (x[1] in arrayForEachDocument[y]), dictionary)
+	#getTermIndex = filter(lambda x: (x[1] in arrayForEachDocument[y]), dictionary)
 	# fileIndex = y + 1
 	# file_name = "results/" + str(fileIndex) + ".txt"
 	# writeResult = open (file_name, 'w')
@@ -85,7 +96,9 @@ for y in range(len(arrayForEachDocument)):
 	for q in range(len(arrayForEachDocumentWithCount[y])):
 		#print "{:<5}   {:.2f}".format(str(getTermIndex[q][3]), math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])
 		#writeResult.write("{:<5}   {:.2f}\n".format(str(getTermIndex[q][3]), math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2]))
-		vector.append({1: getTermIndex[q][3], 2: (math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])})
+		#vector.append({1: getTermIndex[q][3], 2: (math.log(float(numberOfDocs) / float(getTermIndex[q][2]), 10) * arrayForEachDocumentWithCount[y][q][2])})
+		#print arrayForEachDocument[y][q]
+		vector.append({1: dictionaryOfIndex[arrayForEachDocument[y][q]], 2: (math.log(float(numberOfDocs) / float(dfOfIndex[arrayForEachDocument[y][q]]), 10) * arrayForEachDocumentWithCount[y][q][2])})
 	#writeResult.close()
 	allVectors.append(vector)
 print "td-idf calculated."
