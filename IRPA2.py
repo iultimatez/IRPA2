@@ -2,7 +2,10 @@ import re
 import porter_algorithm
 import math
 import sys
+import time
 
+t0 = time.clock()
+t1 = time.clock()
 p = porter_algorithm.PorterStemmer()
 stop_words_file = open('stop_words.txt', 'r')
 stop_words = stop_words_file.read().split()
@@ -11,8 +14,11 @@ fullList = []
 arrayForEachDocument = []
 arrayForEachDocumentWithCount = []
 
-numberOfDocs = int(sys.argv[1])
+if int(sys.argv[1]) > 1095 or int(sys.argv[2]) > int(sys.argv[1]) or int(sys.argv[3]) > int(sys.argv[1]):
+	sys.exit("Wrong arguments.")
 
+numberOfDocs = int(sys.argv[1])
+print "Start reading " + sys.argv[1] + " files.\n"
 for x in range(numberOfDocs):
 	fileIndex = x + 1
 	file_name = "IRTM/" + str(fileIndex) + ".txt"
@@ -43,7 +49,8 @@ for x in range(numberOfDocs):
 	f.close()
 #print arrayForEachDocument
 #print len(arrayForEachDocument)
-print "All documents processed."
+print "All documents processed.  " + str(time.clock() - t1) + " sec."
+t1 = time.clock()
 sortedList = sorted(fullList, key = lambda x : x[1])
 
 dictionary = []
@@ -80,7 +87,8 @@ dictionaryTXT.write("{:<7} {:<20}{}\n".format("i_index", "term", "df"))
 for x in range(len(dictionary)):
 	#print "{:<5}   {:<20}{}".format(str(x+1), dictionary[x][1], str(dictionary[x][2])) 
 	dictionaryTXT.write("{:<5}   {:<20}{}\n".format(str(x+1), dictionary[x][1], str(dictionary[x][2])))
-print "Dictionary generated."
+print "Dictionary generated.     " + str(time.clock() - t1) + " sec."
+t1 = time.clock()
 allVectors = []
 #print len(dictionary)
 for y in range(len(arrayForEachDocument)):
@@ -101,7 +109,8 @@ for y in range(len(arrayForEachDocument)):
 		vector.append({1: dictionaryOfIndex[arrayForEachDocumentWithCount[y][q][1]], 2: (math.log(float(numberOfDocs) / float(dfOfIndex[arrayForEachDocumentWithCount[y][q][1]]), 10) * arrayForEachDocumentWithCount[y][q][2])})
 	#writeResult.close()
 	allVectors.append(vector)
-print "td-idf calculated."
+print "td-idf calculated.        " + str(time.clock() - t1) + " sec."
+t1 = time.clock()
 distanceForEveryDocument = []
 
 for x in range(len(allVectors)):
@@ -125,7 +134,8 @@ for x in range(len(allVectors)):
 		#print "{:<5}   {:.2f}".format(str(allVectors[x][y][1]), allVectors[x][y][2])
 		writeResult.write("{:<5}   {:.2f}\n".format(str(allVectors[x][y][1]), allVectors[x][y][2]))
 	writeResult.close()
-print "Normalized all documents."
+print "Normalized all documents. " + str(time.clock() - t1) + " sec."
+t1 = time.clock()
 def cos_similarity(x, y):
 	common = []
 	pointerX = 0
@@ -158,6 +168,7 @@ def cos_similarity(x, y):
 dictionaryTXT.close()
 stop_words_file.close()
 
-print "cosine similarity of " + sys.argv[2] + ' and ' + sys.argv[3]
+print "\ncosine similarity of " + sys.argv[2] + ' and ' + sys.argv[3]
 print cos_similarity(int(sys.argv[2]),int(sys.argv[3]))
+print "\nFinished.                 " + str(time.clock() - t0) + " sec. for all operations"
 
