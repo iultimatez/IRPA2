@@ -14,7 +14,7 @@
 
 ##3. 問題與解決方案
 1. Python開發經驗不足，對於list以及dictionary的使用需要查詢
-2. 演算法設計需要思考效率以及記憶體使用量
+2. 演算法設計需要思考效率以及記憶體使用量：中間計算所有tf-idf並且正規化的時間耗費太長，後來決定用記憶體換時間，取得大幅的時間加速
 3. 輸出結果龐大，很難以判斷計算的正確性，只能用肉眼大致比對
 
 ##4. 執行結果
@@ -23,6 +23,9 @@
 	EX: python IRPA2.py 1095 1 2
 	//讀入1095個檔案，計算1.txt和2.txt的cosine similarity
 
-	執行過程僅顯示兩個檔案的cosine similarity，其他無輸出，直接讀入檔案，處理後輸出至result資料夾以及dictionary.txt
-![Alt text](screenshot.png)
-
+	執行過程僅顯示兩個檔案的cosine similarity，其他無輸出，僅顯示每個步驟的運算時間，直接讀入檔案，處理後輸出至results資料夾以及dictionary.txt
+	
+	尚未修改演算法之前，需要耗費一分十幾秒的時間，加速後大幅削減計算tf-idf的時間，讓程式加速七倍只需耗時10秒左右
+![Alt text](screenshot1.png)
+![Alt text](screenshot2.png)
+	

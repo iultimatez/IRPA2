@@ -109,7 +109,7 @@ for y in range(len(arrayForEachDocument)):
 		vector.append({1: dictionaryOfIndex[arrayForEachDocumentWithCount[y][q][1]], 2: (math.log(float(numberOfDocs) / float(dfOfIndex[arrayForEachDocumentWithCount[y][q][1]]), 10) * arrayForEachDocumentWithCount[y][q][2])})
 	#writeResult.close()
 	allVectors.append(vector)
-print "td-idf calculated.        " + str(time.clock() - t1) + " sec."
+print "tf-idf calculated.        " + str(time.clock() - t1) + " sec."
 t1 = time.clock()
 distanceForEveryDocument = []
 
